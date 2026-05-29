@@ -1,0 +1,25 @@
+name: Automated PR Review
+
+on:
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  review-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Compile Code
+        run: |
+          mkdir -p bin
+          find src -name "*.java" > sources.txt
+          javac -d bin @sources.txt
